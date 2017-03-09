@@ -1,0 +1,87 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 04</title>
+  </head>
+<body>
+  <style type="text/css">
+  .display-num{
+    margin: 10px;
+    padding: 10px;
+    background: red;
+    display: inline-block;
+  }
+  </style>
+  <input id="num-input"/>
+  <button id="btn-left-in">左侧入</button>
+  <button id="btn-right-in">右侧入</button>
+  <button id="btn-left-out">左侧出</button>
+  <button id="btn-right-out">右侧出</button>
+  <div id="display">
+  </div>
+  <script type="text/javascript">
+  var data = [];
+  var buttons = document.getElementsByTagName("button")
+  var display = document.getElementById("display")
+  function insertLeftIn(x){
+    // if(data.length == 0) data[0] = x;
+    // else{
+    //   var i = data.length
+    //   while(i--){
+    //     data[i+1] = data[i]
+    //   }
+    //   data[0] = x
+    // }
+    data.unshift(x)//突然觉得这种方法可能更高效一些？球指点
+  }
+  function insertRightIn(x){
+    // data[data.length] = x
+    data.push(x)
+  }
+  function insertLeftOut(){
+    alert(data.shift())
+  }
+  function insertRightOut(x){
+    alert(data.pop())
+  }
+  function render(){
+    console.log(data)
+    if(display.children.length > 0){
+      
+      // for(var node of display.children){
+      //   console.log(node)
+      //   display.removeChild(node)//执行删除后node[1]变成node[0]，所以不能用遍历删除
+      //   console.log(display.children)
+      // }
+      while(display.firstChild){
+        display.removeChild(display.firstChild)
+      }
+    }
+    data.forEach(function(num, index, array){
+      var div = document.createElement('div');
+      div.innerText = num
+      div.setAttribute('class', "display-num")
+      display.appendChild(div)
+    })
+  }
+  for(var button of buttons){
+    button.addEventListener("click",function(e){
+      //console.log(e.target.getAttribute('id'))
+      var input = document.getElementById("num-input").value
+      if(e.target.getAttribute('id') == "btn-left-in") insertLeftIn(input)
+      if(e.target.getAttribute('id') == "btn-right-in") insertRightIn(input)
+      if(e.target.getAttribute('id') == "btn-left-out") insertLeftOut()
+      if(e.target.getAttribute('id') == "btn-right-out") insertRightOut()
+      render()
+    })
+  }
+  //以下摘自mdn
+  // 添加元素到数组的末尾 push()
+  // 删除数组末尾的元素 pop()
+  // 删除数组最前面（头部）的元素 shift()
+  // 添加到数组的前面（头部）unshift()
+
+  
+  </script>
+</body>
