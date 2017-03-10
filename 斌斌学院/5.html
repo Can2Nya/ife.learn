@@ -1,0 +1,113 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 04</title>
+  </head>
+<body>
+  <style type="text/css">
+  #display{
+    height: 200px;
+  }
+  .display-num{
+    margin: 0 10px;
+    /*padding: 10px;*/
+    width: 20px;
+    background: red;
+    display: inline-block;/*inline-block不知为什么可以让div在底部对齐？*/
+  }
+  </style>
+  <input id="num-input"/>
+  <button id="btn-left-in">左侧入</button>
+  <button id="btn-right-in">右侧入</button>
+  <button id="btn-left-out">左侧出</button>
+  <button id="btn-right-out">右侧出</button>
+  <div id="display">
+  </div>
+  <button id="btn-sort">排序</button>
+  <script type="text/javascript">
+    queue = {
+      data: [],
+      buttons : document.getElementsByTagName("button"),
+      display : document.getElementById("display"),
+      insertLeftIn: function (x){
+        this.data.unshift(parseInt(x))
+      },
+      insertRightIn: function (x){
+        this.data.push(parseInt(x))
+      },
+      insertLeftOut: function (x){
+        alert(this.data.shift())
+      },
+      insertRightOut: function (x){
+        alert(this.data.pop())
+      },
+      sortData: function(){
+        if(this.data.length > 0) this.data.sort(
+          function(pre, next){
+            if(pre < next) return -1
+            if(pre > next) return 1
+            return 0
+        });
+        console.log(this.data)
+      },
+      validInput: function(x){
+        if(x.match(/^-?[0-9]+$/) == null) {
+          alert("仅限制数字")
+          return false
+        }
+        // else if(x.match(/^-?[0-9]{2,2}$/) == null){
+        //   alert("数字大小在10-100之间")
+        //   return false
+        else if(parseInt(x)>100 || parseInt(x)<2){
+          alert("数字大小在10-100之间")
+          return false
+        }else if(this.data.length == 60){
+          alert("长度达到上限")
+          return false
+        }
+        return true
+      },
+      render: function(){
+        if(this.display.children.length > 0){
+          while(this.display.firstChild){
+            this.display.removeChild(this.display.firstChild)
+          }
+        }
+        this.data.forEach(function(num, index, array){
+          var div = document.createElement('div');
+          // div.innerText = num
+          div.setAttribute('class', "display-num")
+          div.setAttribute('style', `height: ${num}%`)
+          this.display.appendChild(div)
+        })
+      },
+      init: function(){
+        var self = this
+        for(var button of this.buttons){
+          button.addEventListener("click",function(e){
+            //console.log(e.target.getAttribute('id'))
+            var input = document.getElementById("num-input").value
+            if(self.validInput(input)){
+              if(e.target.getAttribute('id') == "btn-left-in") self.insertLeftIn(input)
+              if(e.target.getAttribute('id') == "btn-right-in") self.insertRightIn(input)
+              if(e.target.getAttribute('id') == "btn-left-out") self.insertLeftOut()
+              if(e.target.getAttribute('id') == "btn-right-out") self.insertRightOut()
+              if(e.target.getAttribute('id') == "btn-sort") self.sortData()
+              self.render()
+            }
+          })
+        }
+      }
+    }
+    queue.init()
+  
+  //以下摘自mdn
+  // 添加元素到数组的末尾 push()
+  // 删除数组末尾的元素 pop()
+  // 删除数组最前面（头部）的元素 shift()
+  // 添加到数组的前面（头部）unshift()
+  //
+  
+  </script>
+</body>
