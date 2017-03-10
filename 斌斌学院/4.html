@@ -65,15 +65,24 @@
       display.appendChild(div)
     })
   }
+  function validInput(x){
+    if(x.match(/^-?[0-9]+$/) == null) return false
+    return true
+  }
   for(var button of buttons){
     button.addEventListener("click",function(e){
       //console.log(e.target.getAttribute('id'))
       var input = document.getElementById("num-input").value
-      if(e.target.getAttribute('id') == "btn-left-in") insertLeftIn(input)
-      if(e.target.getAttribute('id') == "btn-right-in") insertRightIn(input)
-      if(e.target.getAttribute('id') == "btn-left-out") insertLeftOut()
-      if(e.target.getAttribute('id') == "btn-right-out") insertRightOut()
-      render()
+      if(validInput(input)){
+        if(e.target.getAttribute('id') == "btn-left-in") insertLeftIn(input)
+        if(e.target.getAttribute('id') == "btn-right-in") insertRightIn(input)
+        if(e.target.getAttribute('id') == "btn-left-out") insertLeftOut()
+        if(e.target.getAttribute('id') == "btn-right-out") insertRightOut()
+        render()
+      }
+      else{
+        alert("仅允许输入数字")
+      }
     })
   }
   //以下摘自mdn
