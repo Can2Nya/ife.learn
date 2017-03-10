@@ -51,7 +51,7 @@
       
       // for(var node of display.children){
       //   console.log(node)
-      //   display.removeChild(node)//执行删除后node[1]变成node[0]，所以不能用遍历删除
+      //   display.removeChild(node)//执行删除后node[1]变成node[0]，所以不能用遍历删除display的子节点，应该循环判断display是否有第一个子节点
       //   console.log(display.children)
       // }
       while(display.firstChild){
